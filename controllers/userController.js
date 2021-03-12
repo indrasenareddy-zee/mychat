@@ -29,13 +29,14 @@ exports.login = async(req,res)=>{
     if(!req.body.username || !req.body.password){
         return res.redirect('http://localhost:4000/login')
     }
-    var user =await  db.users.findOne({username:req.body.username})
+    var user =await  db.users.findOne({
+        where:{username:req.body.username}})
     if(!user){
         return res.redirect('http://localhost:4000/login')
 
     }
     var password =await bcrypt.compare(req.body.password,user.password)
-    console.log(password)
+    console.log(user)
     if(!password){
         return res.redirect('http://localhost:4000/login')
     }
