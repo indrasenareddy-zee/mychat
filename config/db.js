@@ -13,8 +13,9 @@ db.messages = require("../models/messages")(sequelize,Sequelize)
 db.friends = require("../models/friends")(sequelize,Sequelize)
 //relations
 db.users.hasMany(db.messages)
-db.messages.belongsTo(db.users)
-// db.users.hasMany(db.friends)
 db.friends.belongsTo(db.users)
+db.users.hasMany(db.friends)
+// db.messages.belongsTo(db.users)
+// db.users.hasMany(db.friends)
 // db.messages.hasOne(db.users)
 module.exports = db

@@ -15,6 +15,7 @@ module.exports = (sequelize,DataTypes)=>{
             type:DataTypes.STRING,
             allowNullL:false
         }
-    }) 
+    })
+    
     return Message
 }

@@ -15,7 +15,20 @@ module.exports = (sequelize,DataTypes)=>{
         password:{
             allowNull:false,
             type:DataTypes.STRING
+        },
+        token:{
+            type:DataTypes.STRING
         }
     })
+//     User.associate =(models)=>{
+// User.hasMany(models.Friend,{
+//     as:'friends',
+//     foreignkey:'userId'
+// })
+// User.hasMany(models.Message,{
+//     as:'messages',
+//     foreignkey:"userId"
+// })
+//     }
     return User
 }

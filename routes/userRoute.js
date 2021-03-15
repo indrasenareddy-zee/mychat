@@ -1,7 +1,10 @@
 var express = require("express")
 var router = express.Router()
-var {newUser,login} = require("../controllers/userController")
-router.post("/welcome",newUser)
-router.post("/dashboard",login)
+var {connectToFriend,dashboard,openChat} = require("../controllers/userController")
+
+router.get("/dashboard",dashboard)
+
+router.post("/connect",connectToFriend)
+router.get("/openchat/:friendId",openChat)
 
 module.exports = router
