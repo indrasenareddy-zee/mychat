@@ -87,6 +87,24 @@ var friend = await db.users.findOne({
         id:req.params.friendId
     }
 })
- return res.render("chatbox.ejs",{user:req.user,iConnected:req.iConnectedTo,connectedToMe:req.connectedToMe,friend:friend})
+var messages = await db.messages.findAll({
+    where:{
+        [Op.or]:[
+            {to:req.user.id},
+            {userId:req.user.id}
+        ]
+    },
+    order:[
+        ['createdAt','DESC']
+    ],
+    limit:10
+})
+console.log("messages",messages)
+ return res.render("chatbox.ejs",{
+     user:req.user,
+     iConnected:req.iConnectedTo,
+     connectedToMe:req.connectedToMe,
+     friend:friend,
+    messages:messages})
 }
 
