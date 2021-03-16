@@ -20,18 +20,21 @@
 
     <div id="messagess"  class="messages">
         <ul id=messagebox>
+            
             <%messages.forEach(message=>{%>
-                <%if(message.userId == user.id){%>
+                <%if(message.to == friend.id && message.userId == user.id){%>
+                
                     <li class="replies">
                         <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
                         <p><%=message.content%></p>
                     </li>
-                <%}else{%>
+                <%}else if(message.to == user.id && message.userId == friend.id){%>
                     <li class="sent">
                         <img src="http://emilcarlsson.se/assets/mikeross.png" alt="" />
                         <p><%=message.content%></p>
                     </li>
                     <%}%>
+                    
             <%})%>
            
 
@@ -80,28 +83,39 @@
         		var socket = io();
 
 
-
 function sendMessage(){
+    userId =document.getElementById('userid').value
+                friendId =document.getElementById('friendid').value
+
     console.log("here")
     socket.emit('chat',{
         content:document.getElementById('sendMessage').value,
         id:socket.id,
          type:'message',
-        sentFrom:document.getElementById('userid').value,
-        sentTo:document.getElementById('friendid').value
+        sentFrom:userId,
+        sentTo:friendId
     })
+    document.getElementById('sendMessage').value=''
 }
 socket.on('chat',(resp)=>{
-    
+    userId =document.getElementById('userid').value
+                friendId =document.getElementById('friendid').value
+
     var newList = document.getElementById('messagebox')
-    if(resp.id ==socket.id){
+    
+        console.log("innn")
+    if(resp.sentFrom ==userId && resp.sentTo==friendId){
+        console.log("i")
    $('#messagebox').append(`<li class="replies"><p style="margin-bottom:15px">${resp.content}</p></li>`)
-    }else{
+    }
+    if (resp.sentTo==userId && resp.sentFrom==friendId){
+        console.log("sent")
         $('#messagebox').append(`<li class="sent"><p style="margin-bottom:15px">${resp.content}</p></li>`)
 
     }
    //    $('#messagess').scrollTop=$('#messagess').scrollHeight 
-   $('#messagess').animate({scrollTop:200000},'slow')
+//    $('#messagess').animate({scrollTop:200000},'slow')
    console.log(resp)
+
 })
 </script>
